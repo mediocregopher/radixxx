@@ -1,4 +1,4 @@
-package radix
+package radixxx
 
 import (
 	"io"
@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mediocregopher/radix/v3/trace"
+	"github.com/mediocregopher/radixxx/v3/trace"
 )
 
 func testPool(size int, opts ...PoolOpt) *Pool {

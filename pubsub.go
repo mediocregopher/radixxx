@@ -1,4 +1,4 @@
-package radix
+package radixxx
 
 import (
 	"bufio"
@@ -10,8 +10,8 @@ import (
 
 	errors "golang.org/x/xerrors"
 
-	"github.com/mediocregopher/radix/v3/resp"
-	"github.com/mediocregopher/radix/v3/resp/resp2"
+	"github.com/mediocregopher/radixxx/v3/resp"
+	"github.com/mediocregopher/radixxx/v3/resp/resp2"
 )
 
 // PubSubMessage describes a message being published to a subscribed channel

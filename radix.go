@@ -1,4 +1,4 @@
-// Package radix implements all functionality needed to work with redis and all
+// Package radixxx implements all functionality needed to work with redis and all
 // things related to it, including redis cluster, pubsub, sentinel, scanning,
 // lua scripting, and more.
 //
@@ -8,7 +8,7 @@
 // connection pool is thread-safe and will automatically create, reuse, and
 // recreate connections as needed:
 //
-//	pool, err := radix.NewPool("tcp", "127.0.0.1:6379", 10)
+//	pool, err := radixxx.NewPool("tcp", "127.0.0.1:6379", 10)
 //	if err != nil {
 //		// handle error
 //	}
@@ -23,22 +23,22 @@
 // captured into any appopriate go primitive type, or a slice or map if the
 // command returns an array.
 //
-//	err := client.Do(radix.Cmd(nil, "SET", "foo", "someval"))
+//	err := client.Do(radixxx.Cmd(nil, "SET", "foo", "someval"))
 //
 //	var fooVal string
-//	err := client.Do(radix.Cmd(&fooVal, "GET", "foo"))
+//	err := client.Do(radixxx.Cmd(&fooVal, "GET", "foo"))
 //
 //	var fooValB []byte
-//	err := client.Do(radix.Cmd(&fooValB, "GET", "foo"))
+//	err := client.Do(radixxx.Cmd(&fooValB, "GET", "foo"))
 //
 //	var barI int
-//	err := client.Do(radix.Cmd(&barI, "INCR", "bar"))
+//	err := client.Do(radixxx.Cmd(&barI, "INCR", "bar"))
 //
 //	var bazEls []string
-//	err := client.Do(radix.Cmd(&bazEls, "LRANGE", "baz", "0", "-1"))
+//	err := client.Do(radixxx.Cmd(&bazEls, "LRANGE", "baz", "0", "-1"))
 //
 //	var buzMap map[string]string
-//	err := client.Do(radix.Cmd(&buzMap, "HGETALL", "buz"))
+//	err := client.Do(radixxx.Cmd(&buzMap, "HGETALL", "buz"))
 //
 // FlatCmd can also be used if you wish to use non-string arguments like
 // integers, slices, maps, or structs, and have them automatically be flattened
@@ -74,9 +74,9 @@
 // Client's Do method.
 //
 //	var fooVal string
-//	p := radix.Pipeline(
-//		radix.FlatCmd(nil, "SET", "foo", 1),
-//		radix.Cmd(&fooVal, "GET", "foo"),
+//	p := radixxx.Pipeline(
+//		radixxx.FlatCmd(nil, "SET", "foo", 1),
+//		radixxx.Cmd(&fooVal, "GET", "foo"),
 //	)
 //	if err := client.Do(p); err != nil {
 //		panic(err)
@@ -104,31 +104,31 @@
 //
 //	// this is a ConnFunc which will set up a connection which is authenticated
 //	// and has a 1 minute timeout on all operations
-//	customConnFunc := func(network, addr string) (radix.Conn, error) {
-//		return radix.Dial(network, addr,
-//			radix.DialTimeout(1 * time.Minute),
-//			radix.DialAuthPass("mySuperSecretPassword"),
+//	customConnFunc := func(network, addr string) (radixxx.Conn, error) {
+//		return radixxx.Dial(network, addr,
+//			radixxx.DialTimeout(1 * time.Minute),
+//			radixxx.DialAuthPass("mySuperSecretPassword"),
 //		)
 //	}
 //
 //	// this pool will use our ConnFunc for all connections it creates
-//	pool, err := radix.NewPool("tcp", redisAddr, 10, PoolConnFunc(customConnFunc))
+//	pool, err := radixxx.NewPool("tcp", redisAddr, 10, PoolConnFunc(customConnFunc))
 //
 //	// this cluster will use the ClientFunc to create a pool to each node in the
 //	// cluster. The pools also use our customConnFunc, but have more connections
-//	poolFunc := func(network, addr string) (radix.Client, error) {
-//		return radix.NewPool(network, addr, 100, PoolConnFunc(customConnFunc))
+//	poolFunc := func(network, addr string) (radixxx.Client, error) {
+//		return radixxx.NewPool(network, addr, 100, PoolConnFunc(customConnFunc))
 //	}
-//	cluster, err := radix.NewCluster([]string{redisAddr1, redisAddr2}, ClusterPoolFunc(poolFunc))
+//	cluster, err := radixxx.NewCluster([]string{redisAddr1, redisAddr2}, ClusterPoolFunc(poolFunc))
 //
 // Custom implementations
 //
 // All interfaces in this package were designed such that they could have custom
-// implementations. There is no dependency within radix that demands any
+// implementations. There is no dependency within radixxx that demands any
 // interface be implemented by a particular underlying type, so feel free to
 // create your own Pools or Conns or Actions or whatever makes your life easier.
 //
-package radix
+package radixxx
 
 import (
 	"bufio"
@@ -141,7 +141,7 @@ import (
 
 	errors "golang.org/x/xerrors"
 
-	"github.com/mediocregopher/radix/v3/resp"
+	"github.com/mediocregopher/radixxx/v3/resp"
 )
 
 var errClientClosed = errors.New("client is closed")

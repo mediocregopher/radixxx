@@ -1,4 +1,4 @@
-package radix
+package radixxx
 
 import (
 	"strings"
@@ -80,7 +80,7 @@ func newPipeliner(c Client, concurrency, limit int, window time.Duration) *pipel
 // If CanDo returns false, the Action must not be given to Do.
 func (p *pipeliner) CanDo(a Action) bool {
 	// there is currently no way to get the command for CmdAction implementations
-	// from outside the radix package so we can not multiplex those commands. User
+	// from outside the radixxx package so we can not multiplex those commands. User
 	// defined pipelines are not pipelined to let the user better control them.
 	if cmdA, ok := a.(*cmdAction); ok {
 		return !blockingCmds[strings.ToUpper(cmdA.cmd)]

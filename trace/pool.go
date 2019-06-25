@@ -2,7 +2,7 @@ package trace
 
 import "time"
 
-// PoolTrace is passed into radix.NewPool via radix.PoolWithTrace, and contains
+// PoolTrace is passed into radixxx.NewPool via radixxx.PoolWithTrace, and contains
 // callbacks which will be triggered for specific events during the Pool's
 // runtime.
 //
@@ -47,12 +47,12 @@ const (
 	PoolConnCreatedReasonInitialization PoolConnCreatedReason = "initialization"
 
 	// PoolConnCreatedReasonRefill indicates a connection was being created
-	// during a refill event (see radix.PoolRefillInterval).
+	// during a refill event (see radixxx.PoolRefillInterval).
 	PoolConnCreatedReasonRefill PoolConnCreatedReason = "refill"
 
 	// PoolConnCreatedReasonPoolEmpty indicates a connection was being created
 	// because the Pool was empty and an Action requires one. See the
-	// radix.PoolOnEmpty options.
+	// radixxx.PoolOnEmpty options.
 	PoolConnCreatedReasonPoolEmpty PoolConnCreatedReason = "pool empty"
 )
 
@@ -82,11 +82,11 @@ const (
 	PoolConnClosedReasonPoolClosed PoolConnClosedReason = "pool closed"
 
 	// PoolConnClosedReasonBufferDrain indicates a connection was closed due to
-	// a buffer drain event. See radix.PoolOnFullBuffer.
+	// a buffer drain event. See radixxx.PoolOnFullBuffer.
 	PoolConnClosedReasonBufferDrain PoolConnClosedReason = "buffer drained"
 
 	// PoolConnClosedReasonPoolFull indicates a connection was closed due to
-	// the Pool already being full. See The radix.PoolOnFull options.
+	// the Pool already being full. See The radixxx.PoolOnFull options.
 	PoolConnClosedReasonPoolFull PoolConnClosedReason = "pool full"
 )
 

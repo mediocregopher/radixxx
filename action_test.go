@@ -1,4 +1,4 @@
-package radix
+package radixxx
 
 import (
 	"bufio"
@@ -6,7 +6,7 @@ import (
 	"fmt"
 	. "testing"
 
-	"github.com/mediocregopher/radix/v3/resp/resp2"
+	"github.com/mediocregopher/radixxx/v3/resp/resp2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -12,7 +12,7 @@ import (
 	redigo "github.com/gomodule/redigo/redis"
 	redispipe "github.com/joomcode/redispipe/redis"
 	redispipeconn "github.com/joomcode/redispipe/redisconn"
-	"github.com/mediocregopher/radix/v3"
+	"github.com/mediocregopher/radixxx/v3"
 )
 
 func newRedigo() redigo.Conn {
@@ -34,12 +34,12 @@ func newRedisPipe(writePause time.Duration) redispipe.Sync {
 	return redispipe.Sync{S: pipe}
 }
 
-func radixGetSet(client radix.Client, key, val string) error {
-	if err := client.Do(radix.Cmd(nil, "SET", key, val)); err != nil {
+func radixxxGetSet(client radixxx.Client, key, val string) error {
+	if err := client.Do(radixxx.Cmd(nil, "SET", key, val)); err != nil {
 		return err
 	}
 	var out string
-	if err := client.Do(radix.Cmd(&out, "GET", key)); err != nil {
+	if err := client.Do(radixxx.Cmd(&out, "GET", key)); err != nil {
 		return err
 	} else if out != val {
 		return errors.New("got wrong value")
@@ -48,17 +48,17 @@ func radixGetSet(client radix.Client, key, val string) error {
 }
 
 func BenchmarkSerialGetSet(b *B) {
-	b.Run("radix", func(b *B) {
-		rad, err := radix.Dial("tcp", "127.0.0.1:6379")
+	b.Run("radixxx", func(b *B) {
+		rad, err := radixxx.Dial("tcp", "127.0.0.1:6379")
 		if err != nil {
 			b.Fatal(err)
 		}
 		defer rad.Close()
-		// avoid overhead of converting from radix.Conn to radix.Client on each loop iteration
-		client := radix.Client(rad)
+		// avoid overhead of converting from radixxx.Conn to radixxx.Client on each loop iteration
+		client := radixxx.Client(rad)
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			if err := radixGetSet(client, "foo", "bar"); err != nil {
+			if err := radixxxGetSet(client, "foo", "bar"); err != nil {
 				b.Fatal(err)
 			}
 		}
@@ -109,17 +109,17 @@ func BenchmarkSerialGetSetLargeArgs(b *B) {
 	key := strings.Repeat("foo", 24)
 	val := strings.Repeat("bar", 4096)
 
-	b.Run("radix", func(b *B) {
-		rad, err := radix.Dial("tcp", "127.0.0.1:6379")
+	b.Run("radixxx", func(b *B) {
+		rad, err := radixxx.Dial("tcp", "127.0.0.1:6379")
 		if err != nil {
 			b.Fatal(err)
 		}
 		defer rad.Close()
-		// avoid overhead of converting from radix.Conn to radix.Client on each loop iteration
-		client := radix.Client(rad)
+		// avoid overhead of converting from radixxx.Conn to radixxx.Client on each loop iteration
+		client := radixxx.Client(rad)
 		b.ResetTimer()
 		for i := 0; i < b.N; i++ {
-			if err := radixGetSet(client, key, val); err != nil {
+			if err := radixxxGetSet(client, key, val); err != nil {
 				b.Fatal(err)
 			}
 		}
@@ -191,10 +191,10 @@ func BenchmarkParallelGetSet(b *B) {
 		})
 	}
 
-	b.Run("radix", func(b *B) {
-		mkRadixBench := func(opts ...radix.PoolOpt) func(b *B) {
+	b.Run("radixxx", func(b *B) {
+		mkRadixBench := func(opts ...radixxx.PoolOpt) func(b *B) {
 			return func(b *B) {
-				pool, err := radix.NewPool("tcp", "127.0.0.1:6379", poolSize, opts...)
+				pool, err := radixxx.NewPool("tcp", "127.0.0.1:6379", poolSize, opts...)
 				if err != nil {
 					b.Fatal(err)
 				}
@@ -209,16 +209,16 @@ func BenchmarkParallelGetSet(b *B) {
 				}
 
 				// avoid overhead of boxing the pool on each loop iteration
-				client := radix.Client(pool)
+				client := radixxx.Client(pool)
 				b.ResetTimer()
 				do(b, func() error {
-					return radixGetSet(client, "foo", "bar")
+					return radixxxGetSet(client, "foo", "bar")
 				})
 			}
 		}
 
-		b.Run("no pipeline", mkRadixBench(radix.PoolPipelineWindow(0, 0)))
-		b.Run("one pipeline", mkRadixBench(radix.PoolPipelineConcurrency(1)))
+		b.Run("no pipeline", mkRadixBench(radixxx.PoolPipelineWindow(0, 0)))
+		b.Run("one pipeline", mkRadixBench(radixxx.PoolPipelineConcurrency(1)))
 		b.Run("default", mkRadixBench())
 	})
 

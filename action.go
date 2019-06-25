@@ -1,4 +1,4 @@
-package radix
+package radixxx
 
 import (
 	"bufio"
@@ -11,8 +11,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/mediocregopher/radix/v3/resp"
-	"github.com/mediocregopher/radix/v3/resp/resp2"
+	"github.com/mediocregopher/radixxx/v3/resp"
+	"github.com/mediocregopher/radixxx/v3/resp/resp2"
 )
 
 // Action can perform one or more tasks using a Conn
@@ -152,12 +152,12 @@ func getCmdAction() *cmdAction {
 // passed into Do more than once. See the package docs on how results are
 // unmarshaled into the receiver.
 //
-//	if err := client.Do(radix.Cmd(nil, "SET", "foo", "bar")); err != nil {
+//	if err := client.Do(radixxx.Cmd(nil, "SET", "foo", "bar")); err != nil {
 //		panic(err)
 //	}
 //
 //	var fooVal string
-//	if err := client.Do(radix.Cmd(&fooVal, "GET", "foo")); err != nil {
+//	if err := client.Do(radixxx.Cmd(&fooVal, "GET", "foo")); err != nil {
 //		panic(err)
 //	}
 //	fmt.Println(fooVal) // "bar"
@@ -182,14 +182,14 @@ func Cmd(rcv interface{}, cmd string, args ...string) CmdAction {
 // FlatCmd does _not_ work for commands whose first parameter isn't a key, or
 // (generally) for MSET. Use Cmd for those.
 //
-//	client.Do(radix.FlatCmd(nil, "SET", "foo", 1))
+//	client.Do(radixxx.FlatCmd(nil, "SET", "foo", 1))
 //	// performs "SET" "foo" "1"
 //
-//	client.Do(radix.FlatCmd(nil, "SADD", "fooSet", []string{"1", "2", "3"}))
+//	client.Do(radixxx.FlatCmd(nil, "SADD", "fooSet", []string{"1", "2", "3"}))
 //	// performs "SADD" "fooSet" "1" "2" "3"
 //
 //	m := map[string]int{"a":1, "b":2, "c":3}
-//	client.Do(radix.FlatCmd(nil, "HMSET", "fooHash", m))
+//	client.Do(radixxx.FlatCmd(nil, "HMSET", "fooHash", m))
 //	// performs "HMSET" "foohash" "a" "1" "b" "2" "c" "3"
 //
 //	// FlatCmd also supports using a resp.LenReader (an io.Reader with a Len()
@@ -197,7 +197,7 @@ func Cmd(rcv interface{}, cmd string, args ...string) CmdAction {
 //	// and the resp package has a NewLenReader function which can wrap an
 //	// existing io.Reader. For example, if writing an http.Request body:
 //	bl := resp.NewLenReader(req.Body, req.ContentLength)
-//	client.Do(radix.FlatCmd(nil, "SET", "fooReq", bl))
+//	client.Do(radixxx.FlatCmd(nil, "SET", "fooReq", bl))
 //
 // FlatCmd also supports encoding.Text/BinaryMarshalers. It does _not_ currently
 // support resp.Marshaler.

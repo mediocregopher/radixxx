@@ -1,4 +1,4 @@
-package radix
+package radixxx
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 
 	errors "golang.org/x/xerrors"
 
-	"github.com/mediocregopher/radix/v3/resp/resp2"
+	"github.com/mediocregopher/radixxx/v3/resp/resp2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
